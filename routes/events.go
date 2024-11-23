@@ -82,5 +82,12 @@ func updateEvent(context *gin.Context) {
 	}
 
 	updatedEvent.ID = eventId
-	updatedEvent.UserId = 1
+	err = updatedEvent.Update()
+
+	if err != nil {
+		context.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	context.JSON(http.StatusOK, gin.H{"message": "event updated successfully", "event": updatedEvent})
 }
