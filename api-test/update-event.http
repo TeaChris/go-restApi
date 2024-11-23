@@ -1,0 +1,10 @@
+PUT http://localhost:8080/events/2
+content-Type: application/json
+
+{
+  "name": "Sample Event",
+  "description": "A great event",
+  "location": "Virtual (Updated)!",
+  "dateTime": "2024-11-23T10:00:00Z"
+}
+
