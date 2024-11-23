@@ -17,7 +17,6 @@ type Event struct {
 var events = []Event{}
 
 func (e Event) Save() error {
-	// later: add it to a database
 	query := `
 	INSERT INTO events (name, description, location, date_time, user_id) 
 	VALUES (?, ?, ?, ?, ?)`
@@ -101,5 +100,23 @@ func (event Event) Update() error {
 	defer stmt.Close()
 
 	_, err = stmt.Exec(event.Name, event.Description, event.Location, event.DateTime, event.ID)
+	return err
+}
+
+func (event Event) Delete() error {
+	query := `
+	DELETE FROM events
+	WHERE id = ?
+	`
+
+	stmt, err := db.DB.Prepare(query)
+	if err != nil {
+		return err
+	}
+
+	defer stmt.Close()
+
+	_, err = stmt.Exec(event.ID)
+
 	return err
 }
