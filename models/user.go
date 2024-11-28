@@ -3,14 +3,14 @@ package models
 import "rest-api/db"
 
 type User struct {
-	ID       int64
-	Email    string `binding:"required"`
-	Password string `binding:"required"`
+	ID       int64  `json:"id"`
+	Email    string `json:"email" binding:"required"`
+	Password string `json:"password" binding:"required"`
 }
 
-func (u User) Save() error {
+func (u *User) Save() error {
 	query := `
-	INSERT INTO user(email, password) VALUES (?, ?)
+	INSERT INTO users (email, password) VALUES (?, ?)
 	`
 	stmt, err := db.DB.Prepare(query)
 
@@ -27,8 +27,10 @@ func (u User) Save() error {
 	}
 
 	userId, err := result.LastInsertId()
+	if err != nil {
+		return err
+	}
 
 	u.ID = userId
-	return err
-
+	return nil
 }
