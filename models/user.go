@@ -1,12 +1,16 @@
 package models
 
-import "rest-api/db"
+import (
+	"rest-api/db"
+	"rest-api/utils"
+)
 
 type User struct {
 	ID       int64  `json:"id"`
 	Email    string `json:"email" binding:"required"`
-	Password string `json:"password" binding:"required"`
+	Password string `json:"-"`
 }
+
 
 func (u *User) Save() error {
 	query := `
@@ -20,7 +24,13 @@ func (u *User) Save() error {
 
 	defer stmt.Close()
 
-	result, err := stmt.Exec(u.Email, u.Password)
+	hashedPassword, err := utils.HashPassword(u.Password)
+
+	if err != nil {
+		return err
+	}
+
+	result, err := stmt.Exec(u.Email, hashedPassword)
 
 	if err != nil {
 		return err
