@@ -25,9 +25,10 @@ func signup(context *gin.Context) {
 	}
 
 	context.JSON(http.StatusCreated, gin.H{
-		"message": "User created successfully",
-		"user":    user,
-	})
+	"message": "User created successfully",
+	"user":    user,
+})
+
 }
 
 func isUniqueConstraintError(err error) bool {
