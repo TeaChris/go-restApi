@@ -34,3 +34,26 @@ func signup(context *gin.Context) {
 func isUniqueConstraintError(err error) bool {
 	return err.Error() == "UNIQUE constraint failed: users.email"
 }
+
+func login(context *gin.Context) {
+	var user models.User
+
+	err := context.ShouldBindJSON(&user)
+
+	if err != nil {
+		context.JSON(http.StatusBadRequest, gin.H{"error": "Invalid input: " + err.Error()})
+		return
+	}
+
+	err = user.ValidateCredentials()
+
+	if err != nil {
+		context.JSON(http.StatusUnauthorized, gin.H{"error": "Invalid credentials"})
+		return
+	}
+
+	context.JSON(http.StatusOK, gin.H{
+		"message": "Login successful",
+		"user":    user,
+	})
+}
