@@ -1,5 +1,6 @@
 POST http://localhost:8080/events
 content-Type: application/json
+authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InVzZXJAZXhhbXBsZS5jb20iLCJleHAiOjE3MzMwMzIxNzMsInVzZXJJZCI6MH0.9ILoDZHQh2oASMpvkxp1voEygahEMu5EgywnjUd5QwI
 
 {
         "name": "GO Bermuda", 
